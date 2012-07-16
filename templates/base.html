@@ -1,0 +1,48 @@
+{% load i18n %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{% block title %}{% trans "Home" %}{% endblock %} – SDRV Slovar</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link href="{{ MEDIA_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css" />
+    {% block css %}{% endblock %}
+    {% block js %}{% endblock %}
+    {% block rss %}{% endblock %}
+</head>
+
+<body>
+
+<div id="header">
+<h1><a href="/"><span>SDRV slovar</span></a></h1>
+<div id="usermenu">
+{% if user.is_authenticated %}
+{{ user.first_name }} {{ user.last_name }} (<a href="/user/logout">{% trans "Log out" %}</a>)
+{% else %}
+<a href="/user/login">{% trans "Log in" %}</a>
+{% endif %}
+</div>
+
+</div>
+<div id="main">
+<div id="sidebar">
+
+
+</div>
+
+<div id="content">
+<h1>{% block heading %}{% endblock %}</h1>
+{% if messages %}
+<div id="messages">
+  <ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+{% block content %}{% endblock %}
+</div>
+
+</div>
+
+</body>
+</html>

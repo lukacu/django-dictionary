@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Phrase list" %}{% endblock %}
+{% block heading %}{% trans "Phrase list" %}{% endblock %}ls
+
+{% block content %}
+
+<div class="phrase_list">
+<ul>
+{% if user.is_authenticated %}
+<li class="new"><form method="post" action="{% url dictionary-ask %}">
+{% csrf_token %}
+{{ form.errors }}
+{{ form.content }}
+<input type="submit" value="{% trans "Add" %}" />
+</form>
+</li>
+{% endif %}
+{% regroup phrases by first_letter as letter_list %}
+{% for letter in letter_list %}
+  <li><h2 class="letter">{{ letter.grouper }}</h2>
+    <ul>
+        {% for phrase in letter.list %}
+<li class="phrase {% if phrase.translation_count > 0 %}translated{% endif %}"><a class="name" href="{% url dictionary-phrase phrase.id %}">{{ phrase.content }}</a> <span class="translations">{{ phrase.translation_count }}</span></li>
+	{% endfor %}
+    </ul>
+  </li>
+{% endfor %}
+</ul>
+</div>
+{% endblock %}

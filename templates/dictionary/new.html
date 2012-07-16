@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Add phrase" %}{% endblock %}
+{% block heading %}{% trans "Add phrase" %}{% endblock %}ls
+
+{% block content %}
+
+<form method="post" action="{% url dictionary-ask %}">
+{% csrf_token %}
+{{ form.errors }}
+{{ form.content }}
+<input type="submit" value="{% trans "Add" %}" />
+</form>
+
+{% endblock %}
