@@ -1,8 +1,7 @@
 {% extends "base.html" %}
-{% load i18n %}
 
-{% block title %}{% trans "Phrase list" %}{% endblock %}
-{% block heading %}{% trans "Phrase list" %}{% endblock %}ls
+{% block title %}Seznam izrazov{% endblock %}
+{% block heading %}Seznam izrazov{% endblock %}
 
 {% block content %}
 
@@ -13,7 +12,7 @@
 {% csrf_token %}
 {{ form.errors }}
 {{ form.content }}
-<input type="submit" value="{% trans "Add" %}" />
+<input type="submit" value="Dodaj" />
 </form>
 </li>
 {% endif %}

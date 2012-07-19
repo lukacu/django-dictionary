@@ -63,8 +63,17 @@ a {
 	color:  #ac39b9;
 }
 
+.empty {
+	width: 500px;
+	padding: 20px 0;
+	color: #9c9c9c;
+	text-align: center;
+	font-size: 14px;
+}
+
 .phrase_full .phrase_label,
-.phrase_full .translations_label {
+.phrase_full .translations_label,
+.phrase_full .comments_label {
 	color: #B6B6B6;
 	text-transform: uppercase;
 	padding: 30px 0 10px 0;
@@ -143,7 +152,7 @@ a {
 .phrase_full ul.translations li .empty {
 	font-size: 22px;
 	display: inline-block;
-	width: 400px;
+	width: 437px;
 	text-decoration: none;
 	color:  #9c9c9c;
 }
@@ -163,7 +172,6 @@ a {
 	background-color: #ac39b9;
 	color: white;
 	padding: 5px;
-	border-radius: 5px 0px 0px 5px;
 }
 
 .phrase_full ul.translations a.voted,
@@ -173,44 +181,120 @@ a {
 	width: 22px;
 	color: white;
 	padding: 5px;
-	border-radius: 0px 5px 5px 0px;
-	background: #5c5c5c url('images/vote.png') no-repeat 3px 3px;
+	background: #5c5c5c url('images/vote.png') no-repeat 8px 5px;
 	text-indent: 40px;
 }
 
 .phrase_full ul.translations a.vote:hover {
-	background: #5c5c5c url('images/vote.png') no-repeat 3px -47px;
+	background: #5c5c5c url('images/vote.png') no-repeat 8px -45px;
 }
 
 
 .phrase_full ul.translations a.voted {
-	background: #9c9c9c url('images/vote.png') no-repeat 3px -47px;
+	background: #9c9c9c url('images/vote.png') no-repeat 8px -45px;
 }
 
 .phrase_full ul.translations form {
 
 }
 
-.phrase_full ul.translations form input {
+.phrase_full ul.translations input.add {
+	cursor: pointer;
 	margin: 0;
 	font-size: 16px;
-	width: 40px;
+	width: 32px;
+	display: inline-block;
 	border: none;
-	background-color: #ac39b9;
+	background: #ac39b9 url('images/add.png') no-repeat 7px -23px;
 	color: white;
 	padding: 5px;
-	border-radius: 0px 5px 5px 0px;
+	text-indent: 40px;
 }
 
-.phrase_full ul.translations form #id_content {
+.phrase_full ul.translations #id_content {
 	margin: 0;
 	font-size: 16px;
-	width: 440px;
+	width: 475px;
 	background-color: white;
+	background-image: none;
 	border: 1px solid #ac39b9;
 	color: black;
 	padding: 5px;
-	border-radius: 5px 0px 0px 5px;
+	text-indent: 0px;
 }
 
+ul.comments {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+ul.comments li.comment {
+	padding: 10px 10px 50px 10px;
+	margin: 10px 0 30px 0;
+	width: 500px;
+}
+
+ul.comments li.comment .message {
+	font-size: 12px;
+}
+
+ul.comments li.comment .user {
+	font-size: 10px;
+	margin-top: 20px;
+	color: #9C9C9C;
+	text-align: right;
+}
+
+ul.comments li.comment .user .name,
+ul.comments li.comment .user .date,
+ul.comments li.comment .user .time {
+	color: #2C2C2C;
+}
+
+ul.comments li.comment.odd {
+	background: #efd4f2 url('images/comment-left.png') no-repeat bottom left;
+}
+
+ul.comments li.comment.even {
+	background: #efd4f2 url('images/comment-right.png') no-repeat bottom right;
+}
+
+ul.comments li.newcomment {
+	padding: 0px 0px 40px 0px;
+	margin: 10px 0;
+	width: 520px;
+	background: #f1f1f1 url('images/comment-left.png') no-repeat bottom left;
+}
+
+ul.comments li.newcomment form {
+	position: relative;
+}
+
+ul.comments li.newcomment textarea {
+	width: 510px;
+	height: 100px;
+	background-color: #f1f1f1;
+	border: none;
+	resize: vertical;
+	color: #272727;
+	padding: 5px;
+
+}
+
+ul.comments li.newcomment input.add {
+	cursor: pointer;
+	margin: 0;
+	font-size: 16px;
+	width: 32px;
+	display: inline-block;
+	border: none;
+	background: #ac39b9 url('images/add.png') no-repeat 7px -23px;
+	color: white;
+	padding: 5px;
+	text-indent: 40px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
 

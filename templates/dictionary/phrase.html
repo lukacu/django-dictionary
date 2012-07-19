@@ -1,15 +1,14 @@
 {% extends "base.html" %}
-{% load i18n %}
 {% load comments %}
 
-{% block title %}{% trans "Phrase" %} {{ phrase.content }}{% endblock %}
+{% block title %}Izraz '{{ phrase.content }}'{% endblock %}
 {% block heading %}{% endblock %}
 
 {% block content %}
 <div class="phrase_full">
-<div class="phrase_label">{% trans "Phrase" %}</div>
+<div class="phrase_label">Izraz</div>
 <div class="phrase">{{ phrase.content }}</div>
-<div class="translations_label">{% trans "Translations" %}</div>
+<div class="translations_label">Prevodi</div>
 <ul class="translations">
 {% for translation in translations %}
 <li class="translation">
@@ -17,14 +16,14 @@
 <span class="votes">{{ translation.vote_count }}</span>
 {% if user.is_authenticated %}
 {% if translation.pk == voted.pk %}
-<a class="voted">{% trans "Vote" %}</a>
+<a class="voted">Glasuj</a>
 {% else %}
-<a href="{% url dictionary-vote translation.pk %}" class="vote">{% trans "Vote" %}</a>
+<a href="{% url dictionary-vote translation.pk %}" class="vote">Glasuj</a>
 {% endif %}
 {% endif %}
 </li>
 {% empty %}
-<li class="empty">{% trans "No translations" %}</li>
+<li class="empty">Ni predlaganih komentarjev</li>
 {% endfor %}
 <li class="translate">
 {% if user.is_authenticated %}
@@ -32,14 +31,39 @@
 {% csrf_token %}
 {{ form.errors }}
 {{ form.content }}
-<input type="submit" value="{% trans "Add" %}" />
+<input class="add" type="submit" value="Predlagaj" />
 </form>
 {% endif %}
 </li>
 </ul>
 
-
-{% render_comment_list for phrase %}
-
+<div class="comments_label">Komentarji</div>
+<ul class="comments">
+{% get_comment_list for phrase as comment_list %}
+{% for comment in comment_list %}
+<li class="comment {% cycle 'odd' 'even' %}">
+<div class="message">{{ comment.comment }}</div>
+<div class="user">Dne <span class="date">{{ comment.submit_date|date:"SHORT_DATE_FORMAT" }}</span> ob <span class="time">{{ comment.submit_date|time:"TIME_FORMAT" }}</span> objavil <span class="name">{{comment.user.first_name}} {{comment.user.last_name}}</span>
+</div>
+</li>
+{% empty %}
+{% if not user.is_authenticated %}
+<li class="empty">Ni komentarjev</li>
+{% endif %}
+{% endfor %}
+<li class="newcomment">
+{% get_comment_form for phrase as form %}
+<form action="{% comment_form_target %}" method="post">
+{% csrf_token %}
+{{ form.comment }}
+{{ form.content_type }}
+{{ form.object_pk }}
+{{ form.timestamp }}
+{{ form.security_hash }}
+<input class="add" type="submit" name="submit" value="Objavi">
+<input type="hidden" name="next" value="{% url dictionary-translate phrase.pk %}" />
+</form>
+</li>
+</ul>
 </div>
 {% endblock %}

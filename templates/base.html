@@ -15,9 +15,9 @@
 <h1><a href="/"><span>SDRV slovar</span></a></h1>
 <div id="usermenu">
 {% if user.is_authenticated %}
-{{ user.first_name }} {{ user.last_name }} (<a href="/user/logout">{% trans "Log out" %}</a>)
+{{ user.first_name }} {{ user.last_name }} (<a href="/user/logout">{% trans "Odjava" %}</a>)
 {% else %}
-<a href="/user/login">{% trans "Log in" %}</a>
+<a href="/user/login">{% trans "Prijava" %}</a>
 {% endif %}
 </div>
 

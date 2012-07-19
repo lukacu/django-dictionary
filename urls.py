@@ -8,6 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
   url(r'^$', 'dictionary.views.phrases'),
   url(r'^dictionary/', include('dictionary.urls')),
+  (r'^comments/', include('django.contrib.comments.urls')),
   (r'^user/', include('django_openid_auth.urls')),
   (r'^admin/', include(admin.site.urls)),
 )
