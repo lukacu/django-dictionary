@@ -7,8 +7,8 @@ def post_comment(request, next=None):
   if not request.user.is_authenticated():
     from django.template.loader import render_to_string
     from django import http
-    response = HttpResponse()
-    response.status_code = 401  
+    response = HttpResponse("Forbidden")
+    response.status_code = 403
     return response
   return original_post_comment(request, next)
 

@@ -49,7 +49,6 @@ def phrase(request, phrase):
       voted_for = vote.translation
     except ObjectDoesNotExist:
       pass
-  print voted_for
 
   return render_to_response('dictionary/phrase.html',
     { 'phrase' : phrase, 'translations' : translations, 'voted' : voted_for, 'form' : TranslationForm(request.user, phrase) },

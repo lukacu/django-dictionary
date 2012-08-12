@@ -4,18 +4,25 @@
 {% block heading %}Seznam izrazov{% endblock %}
 
 {% block content %}
+<div id="description">
+<div class="welcome">
+    <h2>Slovar izrazov SDRV</h2>
+    <p>Dobrodošli na strani spletnega slovarja Slovenskega društva za razpoznavanje vzorcev.</p>
+</div>
+    {% if user.is_authenticated %}
+        <div class="newphrase">
+            <form method="post" action="{% url dictionary-ask %}">
+                {% csrf_token %}
+                {{ form.errors }}
+                {{ form.content }}
+                <input type="submit" class="add" value="Dodaj" />
+            </form>
+        </div>
+    {% endif %}
 
+</div>
 <div class="phrase_list">
 <ul>
-{% if user.is_authenticated %}
-<li class="new"><form method="post" action="{% url dictionary-ask %}">
-{% csrf_token %}
-{{ form.errors }}
-{{ form.content }}
-<input type="submit" value="Dodaj" />
-</form>
-</li>
-{% endif %}
 {% regroup phrases by first_letter as letter_list %}
 {% for letter in letter_list %}
   <li><h2 class="letter">{{ letter.grouper }}</h2>

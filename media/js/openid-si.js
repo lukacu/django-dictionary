@@ -16,45 +16,44 @@ var providers_large = {
 	},
 	openid : {
 		name : 'OpenID',
-		label : 'Enter your OpenID.',
+		label : 'Vnesi OpenID.',
 		url : null
-	}
+	},
+    vicos : {
+        name : 'ViCoS Lab',
+        url : 'https://auth.vicos.si/openid/'
+    }
 };
 
 var providers_small = {
 	livejournal : {
 		name : 'LiveJournal',
-		label : 'Enter your Livejournal username.',
+		label : 'Vnesi Livejournal uporabniško ime.',
 		url : 'http://{username}.livejournal.com/'
 	},
 	flickr: {
 		name: 'Flickr',        
-		label: 'Enter your Flickr username.',
+		label: 'Vnesi Flickr uporabniško ime.',
 		url: 'http://flickr.com/{username}/'
 	},
 	myopenid : {
 		name : 'MyOpenID',
-		label : 'Enter your MyOpenID username.',
+		label : 'Vnesi MyOpenID uporabniško ime.',
 		url : 'http://{username}.myopenid.com/'
 	},
 	wordpress : {
 		name : 'Wordpress',
-		label : 'Enter your Wordpress.com username.',
+		label : 'Vnesi Wordpress.com uporabniško ime.',
 		url : 'http://{username}.wordpress.com/'
 	},
 	blogger : {
 		name : 'Blogger',
-		label : 'Your Blogger account',
+		label : 'Tvoj Blogger račun',
 		url : 'http://{username}.blogspot.com/'
-	},
-	verisign : {
-		name : 'Verisign',
-		label : 'Your Verisign username',
-		url : 'http://{username}.pip.verisignlabs.com/'
 	},
 	google_profile : {
 		name : 'Google Profile',
-		label : 'Enter your Google Profile username',
+		label : 'Vnesi Google Profile uporabniško ime',
 		url : 'http://www.google.com/profiles/{username}'
 	}
 };

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}{% trans "Sign in with your OpenID" %}{% endblock %}
-{% block heading %}{% trans "Sign in with your OpenID" %}{% endblock %}
+{% block title %}{% trans "Prijavi se z OpenID računom" %}{% endblock %}
+{% block heading %}{% trans "Prijavi se z OpenID računom" %}{% endblock %}
 {% block css %}
 <style type="text/css">
 input.openid {
@@ -15,9 +15,10 @@ input.openid {
 {% block js %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/openid-jquery.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/openid-en.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/openid-si.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
+        openid.locale = 'si';
 		openid.img_path = '{{ MEDIA_URL }}images/';
 		openid.init('openid_identifier');
 		//openid.setDemoMode(true); //Stops form submission for client javascript-only test purposes
@@ -26,7 +27,7 @@ input.openid {
 {% endblock %}
 {% block content %}
 {% if form.errors %}
-<p class="errors">{% trans "Please correct errors below:" %}<br />
+<p class="errors">{% trans "Popravi napake:" %}<br />
     {% if form.openid_identifier.errors %}
     <span class="error">{{ form.openid_identifier.errors|join:", " }}</span>
     {% endif %}
@@ -37,8 +38,7 @@ input.openid {
 {% endif %}
 <form name="fopenid" id="openid_form" action="{{ action }}" method="post">
     {% csrf_token %}
-    <fieldset>
-        <legend>{% trans "Sign In Using Your OpenID" %}</legend>
+
 	<div id="openid_choice">
 		<div id="openid_btns"></div>
 	</div>
@@ -50,8 +50,7 @@ input.openid {
  {% if next %}
         <input type="hidden" name="next" value="{{ next }}" />
  {% endif %}
-	<p>OpenID is service that allows you to log-on to many different websites using a single indentity.
-	Find out <a href="http://openid.net/what/">more about OpenID</a> and <a href="http://openid.net/get/">how to get an OpenID enabled account</a>.</p>
-    </fieldset>
+	<p>OpenID je storitev, ki ti omogoča prijavo na več spletnih straneh z eno samo identiteto.
+	<a href="http://openid.net/what/">Več o protokolu OpenID</a> ter <a href="http://openid.net/get/">kako pridobiti OpenID-združljiv račun</a>.</p>
 </form>
 {% endblock %}

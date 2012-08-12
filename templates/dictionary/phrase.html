@@ -13,7 +13,7 @@
 {% for translation in translations %}
 <li class="translation">
 <span class="name">{{translation.content}}</span>
-<span class="votes">{{ translation.vote_count }}</span>
+<span class="votes"><span class="count">{{ translation.vote_count }}</span>
 {% if user.is_authenticated %}
 {% if translation.pk == voted.pk %}
 <a class="voted">Glasuj</a>
@@ -21,6 +21,7 @@
 <a href="{% url dictionary-vote translation.pk %}" class="vote">Glasuj</a>
 {% endif %}
 {% endif %}
+</span>
 </li>
 {% empty %}
 <li class="empty">Ni predlaganih komentarjev</li>
@@ -51,6 +52,7 @@
 <li class="empty">Ni komentarjev</li>
 {% endif %}
 {% endfor %}
+{% if user.is_authenticated %}
 <li class="newcomment">
 {% get_comment_form for phrase as form %}
 <form action="{% comment_form_target %}" method="post">
@@ -64,6 +66,7 @@
 <input type="hidden" name="next" value="{% url dictionary-translate phrase.pk %}" />
 </form>
 </li>
+{% endif %}
 </ul>
 </div>
 {% endblock %}

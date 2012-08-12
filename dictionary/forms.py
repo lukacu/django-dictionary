@@ -11,6 +11,9 @@ class PhraseForm(forms.ModelForm):
   class Meta:
     model = Phrase
     exclude = ('user',)
+    widgets = {
+        'content': forms.TextInput({ "placeholder": "Vnesi nov izraz"}),
+        }
 
   def __init__(self, user, *args, **kwargs):
     self._user = user
@@ -28,6 +31,9 @@ class TranslationForm(forms.ModelForm):
   class Meta:
     model = Translation
     exclude = ('user', 'phrase')
+    widgets = {
+          'content': forms.TextInput({ "placeholder": "Predlagaj prevod"}),
+    }
 
   def __init__(self, user, phrase, *args, **kwargs):
     self._user = user

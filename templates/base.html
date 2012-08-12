@@ -1,4 +1,4 @@
-{% load i18n %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+{% load i18n %}{% load dictionary_tags %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>{% block title %}{% trans "Home" %}{% endblock %} – SDRV Slovar</title>
@@ -15,7 +15,9 @@
 <h1><a href="/"><span>SDRV slovar</span></a></h1>
 <div id="usermenu">
 {% if user.is_authenticated %}
-{{ user.first_name }} {{ user.last_name }} (<a href="/user/logout">{% trans "Odjava" %}</a>)
+{{ user.first_name }} {{ user.last_name }} <br />
+    <a href="/user/logout">{% trans "Odjava" %}</a> | <a href="{% url dictionary-ask %}">Dodaj izraz</a>
+
 {% else %}
 <a href="/user/login">{% trans "Prijava" %}</a>
 {% endif %}
@@ -24,8 +26,36 @@
 </div>
 <div id="main">
 <div id="sidebar">
+<div id="recent_translations" class="block">
+    <h3>Zadnji prevedeni</h3>
+    <p class="description">Izrazi, ki jim je bil nedavno dodan predlog prevoda.</p>
+    {% recent_translations as recent_translations %}
+<ul>
+    {% for translation in recent_translations %}
+<li><a href="{% url dictionary-phrase phrase=translation.phrase.pk %}">{{ translation.phrase.content }}</a> ({{ translation.content }})</li>
+    {% empty %}
+    <li>Ni nedavnih prevodov.</li>
+    {% endfor %}
+</ul>
+</div>
+<div id="untranslated" class="block">
+    <h3>Najdlje neprevedeni</h3>
+    <p class="description">Najstarejši izrazi, ki nimajo niti enega predloga prevoda.</p>
 
+    {% untranslated as untranslated %}
+    <ul>
+        {% for phrase in untranslated %}
+            <li><a href="{% url dictionary-phrase phrase=phrase.pk %}">{{ phrase.content }}</a></li>
+        {% empty %}
+            <li>Ni neprevedenih izrazov.</li>
+        {% endfor %}
+    </ul>
 
+</div>
+<!--div id="recent_comments" class="block">
+    <h3>Zadnji komentarji</h3>
+    <p class="description">Zadnji komentarji na izraze.</p>
+</div-->
 </div>
 
 <div id="content">

@@ -10,6 +10,7 @@ urlpatterns = patterns('',
   url(r'^dictionary/', include('dictionary.urls')),
   (r'^comments/', include('django.contrib.comments.urls')),
   (r'^user/', include('django_openid_auth.urls')),
+  url(r'^user/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/',}, name='logout'),
   (r'^admin/', include(admin.site.urls)),
 )
 

@@ -5,11 +5,12 @@
 
 {% block content %}
 
+    <div class="newphrase">
 <form method="post" action="{% url dictionary-ask %}">
 {% csrf_token %}
 {{ form.errors }}
 {{ form.content }}
-<input type="submit" value="Dodaj" />
+<input type="submit" value="Dodaj" class="add" />
 </form>
-
+    </div>
 {% endblock %}
