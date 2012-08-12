@@ -8,9 +8,9 @@ from django.conf import settings
 
 class Phrase(models.Model):
   user = models.ForeignKey(User, null = True)
-  content = models.CharField(_('phrase'), max_length = 1024, blank = False, unique=True)
+  content = models.CharField(_('phrase'), max_length = 255, blank = False, unique=True)
   created = models.DateTimeField(auto_now_add = True, editable = False)
-  modified = models.DateTimeField(auto_now = True, editable = False)
+  modified = models.DateTimeField(auto_now = True, editable = False) 
 
   def first_letter(self):
       return self.content and self.content[0].lower() or ''
@@ -18,7 +18,7 @@ class Phrase(models.Model):
 class Translation(models.Model):
   phrase = models.ForeignKey(Phrase)
   user = models.ForeignKey(User, null = True)
-  content = models.CharField(_('translation'), max_length = 1024, blank = False)
+  content = models.CharField(_('translation'), max_length = 255, blank = False)
   created = models.DateTimeField(auto_now_add = True, editable = False)
 
   class Meta:

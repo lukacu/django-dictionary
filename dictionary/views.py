@@ -1,11 +1,11 @@
 # -*- Mode: python; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- 
 from django.db.models import Count
 from django.db import IntegrityError
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import Context, RequestContext, loader
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.http import Http404, HttpResponseRedirect, HttpResponseServerError
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -106,7 +106,7 @@ def vote_translation(request, translation):
   vote = None
 
   try:
-    vote = Vote.objects.get(translation__phrase = translation.phrase)
+    vote = Vote.objects.get(translation__phrase = translation.phrase, user=request.user)
   except ObjectDoesNotExist:
     pass
 
@@ -122,3 +122,16 @@ def vote_translation(request, translation):
   return HttpResponseRedirect(reverse("dictionary-phrase", kwargs = dict(phrase = translation.phrase.pk)))
 
 
+def server_error(request, template_name='500.html'):
+  """
+  500 error handler.
+
+  Templates: `500.html`
+  Context:
+      MEDIA_URL
+          Path of static media (e.g. "media.example.org")
+  """
+  t = loader.get_template(template_name) # You need to create a 500.html template.
+  return HttpResponseServerError(t.render(Context({
+    'MEDIA_URL': settings.MEDIA_URL
+  })))
