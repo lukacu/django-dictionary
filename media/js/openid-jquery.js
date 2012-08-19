@@ -5,6 +5,7 @@
 	This code is licensed under the New BSD License.
 */
 
+
 var providers;
 var openid;
 (function ($) {
@@ -18,11 +19,8 @@ openid = {
 
 	img_path : 'images/',
 	locale : null, // is set in openid-<locale>.js
-	sprite : null, // usually equals to locale, is set in
-	// openid-<locale>.js
 	signin_text : null, // text on submit button on the form
 	all_small : false, // output large providers w/ small icons
-	no_sprite : false, // don't use sprite image
 	image_title : '{provider}', // for image title
 
 	input_id : null,
@@ -35,23 +33,15 @@ openid = {
 	 * @return {Void}
 	 */
 	init : function(input_id) {
-		providers = $.extend({}, providers_large, providers_small);
+		providers = $.extend({}, providers);
 		var openid_btns = $('#openid_btns');
 		this.input_id = input_id;
 		$('#openid_choice').show();
 		$('#openid_input_area').empty();
-		var i = 0;
 		// add box for each provider
-		for (id in providers_large) {
-			box = this.getBoxHTML(id, providers_large[id], (this.all_small ? 'small' : 'large'), i++);
+		for (id in providers) {
+			box = this.getBoxHTML(id, providers[id]);
 			openid_btns.append(box);
-		}
-		if (providers_small) {
-			openid_btns.append('<br/>');
-			for (id in providers_small) {
-				box = this.getBoxHTML(id, providers_small[id], 'small', i++);
-				openid_btns.append(box);
-			}
 		}
 		$('#openid_form').submit(this.submit);
 		var box_id = this.readCookie();
@@ -63,18 +53,11 @@ openid = {
 	/**
 	 * @return {String}
 	 */
-	getBoxHTML : function(box_id, provider, box_size, index) {
-		if (this.no_sprite) {
-			var image_ext = box_size == 'small' ? '.ico.gif' : '.gif';
-			return '<a title="' + this.image_title.replace('{provider}', provider["name"]) + '" href="javascript:openid.signin(\'' + box_id + '\');"'
-					+ ' style="background: #FFF url(' + this.img_path + '../images.' + box_size + '/' + box_id + image_ext + ') no-repeat center center" '
-					+ 'class="' + box_id + ' openid_' + box_size + '_btn"></a>';
-		}
-		var x = box_size == 'small' ? -index * 24 : -index * 100;
-		var y = box_size == 'small' ? -60 : 0;
+	getBoxHTML : function(box_id, provider) {
+        var image = this.img_path + box_id + ".png";
 		return '<a title="' + this.image_title.replace('{provider}', provider["name"]) + '" href="javascript:openid.signin(\'' + box_id + '\');"'
-				+ ' style="background: #FFF url(' + this.img_path + 'openid-providers-' + this.sprite + '.png); background-position: ' + x + 'px ' + y + 'px" '
-				+ 'class="' + box_id + ' openid_' + box_size + '_btn"></a>';
+				+ ' style="background: #FFF url(' + image + ') no-repeat center center; " '
+				+ 'class="' + box_id + ' openid_large_btn"></a>';
 	},
 
 	/**
@@ -200,3 +183,33 @@ openid = {
 	}
 };
 })(jQuery);
+
+var providers = {
+    google : {
+        name : 'Google',
+        url : 'https://www.google.com/accounts/o8/id'
+    },
+    yahoo : {
+        name : 'Yahoo',
+        url : 'http://me.yahoo.com/'
+    },
+    openid : {
+        name : 'OpenID',
+        label : 'Vnesi OpenID.',
+        url : null
+    },
+    vicos : {
+        name : 'ViCoS Lab',
+        url : 'https://auth.vicos.si/openid/'
+    },
+    myopenid : {
+        name : 'MyOpenID',
+        label : 'Vnesi MyOpenID uporabniško ime.',
+        url : 'http://{username}.myopenid.com/'
+    }
+};
+
+openid.locale = 'si';
+openid.demo_text = 'V demo načinu. Normalno bi sledila preusmeritev OpenID:';
+openid.signin_text = 'Prijavi se';
+openid.image_title = 'prijavi se z {provider}';
