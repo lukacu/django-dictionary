@@ -4,31 +4,39 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
 class Phrase(models.Model):
-  user = models.ForeignKey(User, null = True)
-  content = models.CharField(_('phrase'), max_length = 255, blank = False, unique=True)
-  created = models.DateTimeField(auto_now_add = True, editable = False)
-  modified = models.DateTimeField(auto_now = True, editable = False) 
+    user = models.ForeignKey(User, null = True)
+    content = models.CharField(_('phrase'), max_length = 255, blank = False, unique=True)
+    created = models.DateTimeField(auto_now_add = True, editable = False)
+    modified = models.DateTimeField(auto_now = True, editable = False)
 
-  def first_letter(self):
-      return self.content and self.content[0].lower() or ''
+    def first_letter(self):
+        return self.content and self.content[0].lower() or ''
+
+    def __unicode__(self):
+        return self.content
 
 class Translation(models.Model):
-  phrase = models.ForeignKey(Phrase)
-  user = models.ForeignKey(User, null = True)
-  content = models.CharField(_('translation'), max_length = 255, blank = False)
-  created = models.DateTimeField(auto_now_add = True, editable = False)
+    phrase = models.ForeignKey(Phrase)
+    user = models.ForeignKey(User, null = True)
+    content = models.CharField(_('translation'), max_length = 255, blank = False)
+    created = models.DateTimeField(auto_now_add = True, editable = False)
 
-  class Meta:
-    unique_together = ("phrase", "content")
+    class Meta:
+        unique_together = ("phrase", "content")
 
-  def first_letter(self):
-      return self.content and self.content[0].lower() or ''
+    def first_letter(self):
+        return self.content and self.content[0].lower() or ''
 
+    def __unicode__(self):
+        return self.content
 
 class Vote(models.Model):
-  translation = models.ForeignKey(Translation)
-  user = models.ForeignKey(User)
-  created = models.DateTimeField(auto_now_add = True, editable = False)
+    translation = models.ForeignKey(Translation)
+    user = models.ForeignKey(User)
+    created = models.DateTimeField(auto_now_add = True, editable = False)
 
-  class Meta:
-    unique_together = ("translation", "user")
+    class Meta:
+        unique_together = ("translation", "user")
+
+    def __unicode__(self):
+        return "User '%s' voted for '%s' translation of '%s'" % (self.user, self.translation, self.translation.phrase)

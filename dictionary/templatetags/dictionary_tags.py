@@ -13,7 +13,7 @@ class RecentTranslationsNode(Node):
         self.context_var = context_var
 
     def render(self, context):
-        context[self.context_var] = Translation.objects.all().order_by('created')[0:5]
+        context[self.context_var] = Translation.objects.all().order_by('-created')[0:5]
         return ''
 
 class UntranslatedNode(Node):
@@ -21,7 +21,7 @@ class UntranslatedNode(Node):
         self.context_var = context_var
 
     def render(self, context):
-        context[self.context_var] = Phrase.objects.annotate(translation_count = Count('translation')).filter(translation_count__eq = 0).order_by('-created')
+        context[self.context_var] = Phrase.objects.annotate(translation_count = Count('translation')).filter(translation_count__eq = 0).order_by('created')[0:5]
         return ''
 
 def do_recent_translations(parser, token):

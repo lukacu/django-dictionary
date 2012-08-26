@@ -43,7 +43,7 @@
 {% get_comment_list for phrase as comment_list %}
 {% for comment in comment_list %}
 <li class="comment {% cycle 'odd' 'even' %}">
-<div class="message">{{ comment.comment }}</div>
+<div class="message">{{ comment.comment|linebreaksbr }}</div>
 <div class="user">Dne <span class="date">{{ comment.submit_date|date:"SHORT_DATE_FORMAT" }}</span> ob <span class="time">{{ comment.submit_date|time:"TIME_FORMAT" }}</span> objavil <span class="name">{{comment.user.first_name}} {{comment.user.last_name}}</span>
 </div>
 </li>
