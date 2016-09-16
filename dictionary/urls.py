@@ -1,12 +1,15 @@
 # -*- Mode: python; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- 
 from django.conf.urls import *
 
-urlpatterns = patterns('',
-  url(r'^$', 'dictionary.views.phrases', name='dictionary-list'),
-  url(r'^phrase/(?P<phrase>\d+)(?:/.*)?$', 'dictionary.views.phrase', name='dictionary-phrase'),
-  url(r'^ask/$', 'dictionary.views.new_phrase', name='dictionary-ask'),
-  url(r'^translate/(?P<phrase>\d+)$', 'dictionary.views.add_translation', name='dictionary-translate'),
-  url(r'^vote/(?P<translation>\d+)$', 'dictionary.views.vote_translation', name='dictionary-vote'),
-  url(r'^delete/(?P<phrase>\d+)$', 'dictionary.views.delete_phrase', name='dictionary-delete'),
-  url(r'^untranslate/(?P<translation>\d+)$', 'dictionary.views.remove_translation', name='dictionary-untranslate'),
-)
+from dictionary.views import phrases, phrase, new_phrase, add_translation, vote_translation, delete_phrase, remove_translation
+
+urlpatterns = [
+  url(r'^$', phrases, name='dictionary-list'),
+  url(r'^phrase/(?P<phrase>\d+)(?:/.*)?$', phrase, name='dictionary-phrase'),
+  url(r'^ask/$', new_phrase, name='dictionary-ask'),
+  url(r'^translate/(?P<phrase>\d+)$', add_translation, name='dictionary-translate'),
+  url(r'^vote/(?P<translation>\d+)$', vote_translation, name='dictionary-vote'),
+  url(r'^delete/(?P<phrase>\d+)$', delete_phrase, name='dictionary-delete'),
+  url(r'^untranslate/(?P<translation>\d+)$', remove_translation, name='dictionary-untranslate'),
+]
+

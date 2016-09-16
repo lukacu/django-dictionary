@@ -43,27 +43,22 @@ SITE_ID = 1
 USE_I18N = True
 
 # Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = os.path.join(ROOT_DIR, "media")
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store our static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/home/media/media.lawrence.com/static/"
 STATIC_ROOT = os.path.join(ROOT_DIR, "static")
 
 # URL prefix for static files.
-# Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
-# Examples: "http://foo.com/static/admin/", "/static/admin/".
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATICFILES_FINDERS = (
@@ -99,11 +94,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
 )
 
-
-ROOT_URLCONF = 'slovar.urls'
+ROOT_URLCONF = 'dictionary.urls'
 
 TEMPLATE_DIRS = (
-    os.path.join(ROOT_DIR, 'templates')
+    os.path.join(ROOT_DIR, 'templates'),
 )
 
 INSTALLED_APPS = (
@@ -114,22 +108,15 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.flatpages',
-    'django.contrib.comments',
-    'django_openid_auth',
-    'dictionary',
-    'south'
+    'django_comments',
+    'dictionary'
 )
 
 AUTHENTICATION_BACKENDS = (
-    'django_openid_auth.auth.OpenIDBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-#https://www.google.com/accounts/o8/id
 
 LOGIN_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/'
 
-OPENID_CREATE_USERS = True
-OPENID_UPDATE_DETAILS_FROM_SREG = True
-OPENID_USE_EMAIL_FOR_USERNAME = True
