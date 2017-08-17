@@ -1,0 +1,42 @@
+{% extends "dictionary/base.html" %}
+{% load i18n %}
+
+{% block title %}Phrase '{{ phrase.content }}'{% endblock %}
+{% block heading %}{% endblock %}
+
+{% block content %}
+<div class="phrase_full">
+<div class="phrase_label">{% trans "Phrase" %}</div>
+<div class="phrase">{{ phrase.content }}</div>
+<div class="translations_label">{% trans "Translations" %}</div>
+<ul class="translations">
+{% for translation in translations %}
+<li class="translation">
+<span class="name">{{translation.content}}</span>
+<span class="votes"><span class="count">{{ translation.vote_count }}</span>
+{% if user.is_authenticated %}
+{% if translation.pk == voted.pk %}
+<a class="voted">{% trans "Vote" %}</a>
+{% else %}
+<a href="{% url "dictionary-vote" translation.pk %}" class="vote">{% trans "Vote" %}</a>
+{% endif %}
+{% endif %}
+</span>
+</li>
+{% empty %}
+<li class="empty">{% trans "No suggested translations" %}</li>
+{% endfor %}
+{% if user.is_authenticated %}
+<li class="translate">
+<form method="post" action="{% url "dictionary-translate" phrase.pk %}">
+{% csrf_token %}
+{{ form.errors }}
+{{ form.content }}
+<input class="add" type="submit" value="{% trans "Suggest translation" %}" />
+</form>
+</li>
+{% endif %}
+</ul>
+
+{% block content_footer %}{% endblock %}
+{% endblock %}

@@ -6,10 +6,9 @@ ROOT_DIR = os.path.abspath(os.path.dirname(__file__)).replace('\\', '/')
 database_file = os.path.join(ROOT_DIR, 'db.sqlite').replace('\\', '/')
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+     ('Hostmaster', 'hostmaster@domain.com'),
 )
 
 MANAGERS = ADMINS
@@ -64,18 +63,26 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'kml#%797cwtwz^oyvpek&yo2l%^dxmea7p0r_^unt^60a(o!)q'
+SECRET_KEY = '<change me!>'
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#    'django.template.loaders.eggs.Loader',
-)
+TEMPLATES = [
+{
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'DIRS': ['templates'],
+    'APP_DIRS': True,
+    'OPTIONS': {
+        'context_processors': [
+            'django.template.context_processors.debug',
+            'django.template.context_processors.request',
+            'django.contrib.auth.context_processors.auth',
+            'django.contrib.messages.context_processors.messages',
+        ],
+    },
+}
+]
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -85,20 +92,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.contrib.messages.context_processors.messages",
-    'django.core.context_processors.request',
-)
-
 ROOT_URLCONF = 'dictionary.urls'
-
-TEMPLATE_DIRS = (
-    os.path.join(ROOT_DIR, 'templates'),
-)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -106,17 +100,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-    'django.contrib.admin',
-    'django.contrib.flatpages',
-    'django_comments',
     'dictionary'
 )
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
-
-
-LOGIN_URL = '/user/login/'
-LOGIN_REDIRECT_URL = '/'
 
