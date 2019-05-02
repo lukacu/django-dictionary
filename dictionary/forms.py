@@ -1,4 +1,4 @@
-# -*- Mode: python; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- 
+# -*- Mode: python; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*-
 from django import forms
 from django.forms import widgets
 from django.db import transaction, models
@@ -7,12 +7,17 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from dictionary.models import Phrase, Translation
 
+
+class SearchForm(forms.Form):
+
+  query = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'placeholder': _('Enter search query')}))
+
 class PhraseForm(forms.ModelForm):
   class Meta:
     model = Phrase
     exclude = ('user',)
     widgets = {
-        'content': forms.TextInput({ "placeholder": "Vnesi nov izraz"}),
+        'content': forms.TextInput({ "placeholder": _("Enter a new phrase")}),
         }
 
   def __init__(self, user, *args, **kwargs):
@@ -32,7 +37,7 @@ class TranslationForm(forms.ModelForm):
     model = Translation
     exclude = ('user', 'phrase')
     widgets = {
-          'content': forms.TextInput({ "placeholder": "Predlagaj prevod"}),
+          'content': forms.TextInput({ "placeholder": _("Recommend a translation")}),
     }
 
   def __init__(self, user, phrase, *args, **kwargs):

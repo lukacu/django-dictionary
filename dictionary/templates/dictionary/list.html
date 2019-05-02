@@ -5,24 +5,6 @@
 {% block heading %}{% trans "List of phrases" %}{% endblock %}
 
 {% block content %}
-<div id="description">
-<div class="welcome">
-    <h2>Slovar izrazov SDRV</h2>
-    <p>Dobrodošli na strani spletnega slovarja Slovenskega društva za razpoznavanje vzorcev.</p>
-</div>
-
-{% if user.is_authenticated %}
-    <div class="newphrase">
-        <form method="post" action="{% url "dictionary-ask" %}">
-            {% csrf_token %}
-            {{ form.errors }}
-            {{ form.content }}
-            <input type="submit" class="add" value="{% trans "Add new" %}" />
-        </form>
-    </div>
-{% endif %}
-
-</div>
 <div class="phrase_list">
 <ul>
 {% regroup phrases by first_letter as letter_list %}

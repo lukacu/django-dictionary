@@ -1,0 +1,39 @@
+{% extends "dictionary/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Search the dictionary" %}{% endblock %}
+{% block heading %}{% trans "Search" %}{% endblock %}
+
+{% block content %}
+<div class="search">
+<form method="post" action="{% url "dictionary-search" %}" novalidate="true">
+{% csrf_token %}
+{{ form.query }}
+<input type="submit" value="{% trans "Search" %}" class="search" />
+</form>
+</div>
+
+<div class="search">
+{% if not results_phrase == None %}
+    <h2>{% trans "Phrases" %}</h2>
+    <ul>
+        {% for phrase in results_phrase %}
+            <li><a href="{% url "dictionary-phrase" phrase=phrase.pk %}">{{ phrase.content }}</a></li>
+        {% empty %}
+            <li class="empty">{% trans "No matches found" %}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% if not results_translation == None %}
+    <h2>{% trans "Translations" %}</h2>
+    <ul>
+        {% for translation in results_translation %}
+            <li>{{ translation.content }} (<a href="{% url "dictionary-phrase" phrase=translation.phrase.pk %}">{{ translation.phrase.content }}</a>)</li>
+        {% empty %}
+            <li class="empty">{% trans "No matches found" %}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+</div>
+
+{% endblock %}

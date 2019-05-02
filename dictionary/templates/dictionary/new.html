@@ -5,13 +5,12 @@
 {% block heading %}{% trans "Add new phrase" %}{% endblock %}
 
 {% block content %}
-
-    <div class="newphrase">
+<div class="newphrase">
 <form method="post" action="{% url "dictionary-ask" %}">
 {% csrf_token %}
 {{ form.errors }}
 {{ form.content }}
 <input type="submit" value="{% trans "Add" %}" class="add" />
 </form>
-    </div>
+</div>
 {% endblock %}

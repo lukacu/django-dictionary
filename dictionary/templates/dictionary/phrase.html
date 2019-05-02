@@ -7,20 +7,33 @@
 {% block content %}
 <div class="phrase_full">
 <div class="phrase_label">{% trans "Phrase" %}</div>
-<div class="phrase">{{ phrase.content }}</div>
+<div class="phrase">{{ phrase.content }}
+    {% if user.is_superuser %}
+        <a href="{% url "dictionary-delete" phrase.pk %}" class="delete" onclick="return confirm('{% trans "Do you want to delete phrase and all translations?" %}')">{% trans "Delete" %}</a>
+    {% endif %}
+</div>
 <div class="translations_label">{% trans "Translations" %}</div>
 <ul class="translations">
 {% for translation in translations %}
 <li class="translation">
 <span class="name">{{translation.content}}</span>
-<span class="votes"><span class="count">{{ translation.vote_count }}</span>
+
+
 {% if user.is_authenticated %}
-{% if translation.pk == voted.pk %}
-<a class="voted">{% trans "Vote" %}</a>
+    {% if translation.pk == voted.pk %}
+        <a class="votes voted">{{ translation.vote_count }}</a>
+    {% else %}
+        <a href="{% url "dictionary-vote" translation.pk %}" class="votes vote">{{ translation.vote_count }}</a>
+    {% endif %}
+
+    {% if user.is_superuser %}
+        <a href="{% url "dictionary-untranslate" translation.pk %}" class="delete" onclick="return confirm('{% trans "Do you want to delete this translation?" %}')">{% trans "Delete" %}</a>
+    {% endif %}
 {% else %}
-<a href="{% url "dictionary-vote" translation.pk %}" class="vote">{% trans "Vote" %}</a>
+    <span class="votes">{{ translation.vote_count }}</span>
 {% endif %}
-{% endif %}
+
+
 </span>
 </li>
 {% empty %}
@@ -32,7 +45,7 @@
 {% csrf_token %}
 {{ form.errors }}
 {{ form.content }}
-<input class="add" type="submit" value="{% trans "Suggest translation" %}" />
+<input class="add" type="submit" value="{% trans "Recommend" %}" />
 </form>
 </li>
 {% endif %}
