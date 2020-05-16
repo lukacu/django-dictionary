@@ -1,4 +1,4 @@
-# -*- Mode: python; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- 
+# -*- Mode: python; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*-
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
@@ -27,6 +27,12 @@ class Translation(models.Model):
     def first_letter(self):
         return self.content and self.content[0].lower() or ''
 
+    def is_approved(self):
+      try:
+          return (self.approval is not None)
+      except Approval.DoesNotExist:
+          return False
+
     def __unicode__(self):
         return self.content
 
@@ -40,3 +46,12 @@ class Vote(models.Model):
 
     def __unicode__(self):
         return "User '%s' voted for '%s' translation of '%s'" % (self.user, self.translation, self.translation.phrase)
+
+class Approval(models.Model):
+    translation = models.OneToOneField(Translation)
+    user = models.ForeignKey(User)
+    created = models.DateTimeField(auto_now_add = True, editable = False)
+
+    def __unicode__(self):
+        return "Approval of '%s' translation of '%s' by user '%s'" % (self.translation, self.translation.phrase, self.user)
+

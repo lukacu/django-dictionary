@@ -7,11 +7,11 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 from django.contrib import messages
 
-from django.http import Http404, HttpResponseRedirect, HttpResponseServerError
+from django.http import Http404, HttpResponseRedirect, HttpResponseServerError, JsonResponse
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 
-from dictionary.models import Phrase, Translation, Vote
+from dictionary.models import Phrase, Translation, Vote, Approval
 from dictionary.forms import PhraseForm, TranslationForm, SearchForm
 
 from django.db.models import Q
@@ -94,7 +94,6 @@ def delete_phrase(request, phrase):
 
   return HttpResponseRedirect(reverse("dictionary-list"))
 
-
 @login_required
 def add_translation(request, phrase):
 
@@ -128,6 +127,28 @@ def remove_translation(request, translation):
 
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
+def approve_translation(request, translation):
+  translation = get_object_or_404(Translation, id = int(translation))
+
+  phrase = translation.phrase.pk
+
+  try:
+    approval = Approval.objects.get(translation = translation)
+  except ObjectDoesNotExist:
+    approval = None
+
+  if approval:
+    approval.delete()
+    messages.add_message(request, messages.INFO, _('Translation approval removed'))
+  else:
+    approval = Approval(user = request.user, translation = translation)
+    approval.save()
+    messages.add_message(request, messages.INFO, _('Translation approved'))
+
+  return HttpResponseRedirect(reverse("dictionary-phrase", kwargs = dict(phrase = phrase)))
+
+@login_required
 def vote_translation(request, translation):
 
   translation = get_object_or_404(Translation, id = int(translation))
@@ -148,4 +169,17 @@ def vote_translation(request, translation):
   vote.save()
 
   return HttpResponseRedirect(reverse("dictionary-phrase", kwargs = dict(phrase = translation.phrase.pk)))
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def export_json(request):
+
+  phrases = Phrase.objects.all()
+
+  export = dict()
+
+  for phrase in phrases:
+    export[phrase.content] = { translation.content: dict(votes=translation.vote_count, approved=translation.is_approved()) for translation in Translation.objects.filter(phrase = phrase.id).annotate(vote_count = Count('vote'))}
+
+  return JsonResponse(export)
 
