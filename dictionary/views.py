@@ -12,7 +12,7 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 
 from dictionary.models import Phrase, Translation, Vote, Approval
-from dictionary.forms import PhraseForm, TranslationForm, SearchForm
+from dictionary.forms import PhraseForm, TranslationForm, SearchForm, PhraseDescriptionForm
 
 from django.db.models import Q
 
@@ -41,7 +41,7 @@ def phrase(request, phrase):
       pass
 
   return render(request, 'dictionary/phrase.html',
-    { 'phrase' : phrase, 'translations' : translations, 'voted' : voted_for, 'form' : TranslationForm(request.user, phrase) })
+    { 'phrase' : phrase, 'translations' : translations, 'voted' : voted_for, 'form' : TranslationForm(request.user, phrase), 'description_form' : PhraseDescriptionForm(initial={"description": phrase.description}) })
 
 def search(request):
 
@@ -93,6 +93,20 @@ def delete_phrase(request, phrase):
   messages.add_message(request, messages.INFO, _('Phrase deleted'))
 
   return HttpResponseRedirect(reverse("dictionary-list"))
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def describe_phrase(request, phrase):
+  phrase = get_object_or_404(Phrase, id = int(phrase))
+
+  if request.method == 'POST':
+    form = PhraseDescriptionForm(request.POST)
+    if form.is_valid():
+      phrase.description = form.cleaned_data['description']
+      phrase.save()
+      messages.add_message(request, messages.INFO, _('Phrase description updated'))
+
+  return HttpResponseRedirect(reverse("dictionary-phrase", kwargs = dict(phrase = phrase.pk)))
 
 @login_required
 def add_translation(request, phrase):

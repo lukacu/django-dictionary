@@ -15,7 +15,7 @@ class SearchForm(forms.Form):
 class PhraseForm(forms.ModelForm):
   class Meta:
     model = Phrase
-    exclude = ('user',)
+    exclude = ('user', 'description')
     widgets = {
         'content': forms.TextInput({ "placeholder": _("Enter a new phrase")}),
         }
@@ -30,6 +30,10 @@ class PhraseForm(forms.ModelForm):
     if commit:
       inst.save()
     return inst
+
+class PhraseDescriptionForm(forms.Form):
+
+  description = forms.CharField(widget=forms.Textarea(attrs={'placeholder': _('Describe the phrase')}))
 
 
 class TranslationForm(forms.ModelForm):

@@ -5,9 +5,10 @@ from django.utils.translation import ugettext as _
 
 class Phrase(models.Model):
     user = models.ForeignKey(User, null = True)
-    content = models.CharField(_('phrase'), max_length = 255, blank = False, unique=True)
+    content = models.CharField(_('phrase'), max_length = 255, blank = False, unique = True)
     created = models.DateTimeField(auto_now_add = True, editable = False)
     modified = models.DateTimeField(auto_now = True, editable = False)
+    description = models.TextField(_('description'), blank = True, unique = False)
 
     def first_letter(self):
         return self.content and self.content[0].lower() or ''

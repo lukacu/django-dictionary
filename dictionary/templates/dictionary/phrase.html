@@ -6,13 +6,13 @@
 
 {% block content %}
 <div class="phrase_full">
-<div class="phrase_label">{% trans "Phrase" %}</div>
+<div class="phrase_label label">{% trans "Phrase" %}</div>
 <div class="phrase">{{ phrase.content }}
     {% if user.is_superuser %}
         <a href="{% url "dictionary-delete" phrase.pk %}" class="delete" onclick="return confirm('{% trans "Do you want to delete phrase and all translations?" %}')">{% trans "Delete" %}</a>
     {% endif %}
 </div>
-<div class="translations_label">{% trans "Translations" %}</div>
+<div class="translations_label label">{% trans "Translations" %}</div>
 <ul class="translations">
 {% for translation in translations %}
 <li class="translation {% if translation.approval %}approved{% endif %}">
@@ -51,6 +51,26 @@
 </li>
 {% endif %}
 </ul>
+
+{% if user.is_superuser %}
+<div class="description">
+<div class="description_label label">{% trans "Description" %}</div>
+<form method="post" action="{% url "dictionary-describe" phrase.pk %}">
+{% csrf_token %}
+{{ description_form }}
+<input class="add" type="submit" value="{% trans "Save" %}" />
+</form>
+</div>
+{% else %}
+{% if phrase.description %}
+<div class="description">
+<div class="description_label label">{% trans "Description" %}</div>
+<div class="description_body">
+{{ phrase.description|linebreaks }}
+</div>
+</div>
+{% endif %}
+{% endif %}
 
 {% block content_footer %}{% endblock %}
 {% endblock %}
