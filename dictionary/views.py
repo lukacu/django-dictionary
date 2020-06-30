@@ -102,7 +102,7 @@ def describe_phrase(request, phrase):
   if request.method == 'POST':
     form = PhraseDescriptionForm(request.POST)
     if form.is_valid():
-      phrase.description = form.cleaned_data['description']
+      phrase.description = form.cleaned_data.get('description', "")
       phrase.save()
       messages.add_message(request, messages.INFO, _('Phrase description updated'))
 

@@ -33,7 +33,7 @@ class PhraseForm(forms.ModelForm):
 
 class PhraseDescriptionForm(forms.Form):
 
-  description = forms.CharField(widget=forms.Textarea(attrs={'placeholder': _('Describe the phrase')}))
+  description = forms.CharField(required = False, widget=forms.Textarea(attrs={'placeholder': _('Describe the phrase')}))
 
 
 class TranslationForm(forms.ModelForm):
