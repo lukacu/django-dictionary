@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
+from os.path import join, dirname, abspath, isfile
+
+install_requires = []
+if isfile(join(this_directory, "requirements.txt")):
+    with open(join(this_directory, "requirements.txt"), encoding='utf-8') as f:
+        install_requires = f.readlines()
+
 setup(
     name = "django-dictionary",
     version = "0.1",
@@ -12,6 +19,7 @@ setup(
     download_url = "https://github.com/lukacu/django-dictionary/archive/master.zip",
     packages=find_packages(),
     include_package_data=True,
+    install_requires=install_requires,
     zip_safe=False,
     classifiers = [
         "Development Status :: 3 - Alpha",
