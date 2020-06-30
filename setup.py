@@ -3,6 +3,7 @@ from setuptools import setup, find_packages
 
 from os.path import join, dirname, abspath, isfile
 
+this_directory = abspath(dirname(__file__))
 install_requires = []
 if isfile(join(this_directory, "requirements.txt")):
     with open(join(this_directory, "requirements.txt"), encoding='utf-8') as f:
